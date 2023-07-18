@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, ChangeEvent } from 'react';
-import { activityLevels, goals } from '../data.json'; // Import the activityLevels and goals data
+import { activityLevels, goals } from '../data.json';
 
 interface FormData {
+  gender: string;
   weightValue: string;
   weightUnit: string;
   heightValue: string;
@@ -15,6 +16,7 @@ interface FormData {
 
 const HomePage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
+    gender: 'male',
     weightValue: '',
     weightUnit: 'lb',
     heightValue: '',
@@ -25,9 +27,9 @@ const HomePage: React.FC = () => {
   });
 
   const [showResults, setShowResults] = useState(false);
-  const [bmrResult, setBmrResult] = useState<number | null>(null); // State to hold the BMR result
-  const [tdeeResult, setTdeeResult] = useState<number | null>(null); // State to hold the TDEE result
-  const [goalResult, setGoalResult] = useState<number | null>(null); // State to hold the Goal result
+  const [bmrResult, setBmrResult] = useState<number | null>(null);
+  const [tdeeResult, setTdeeResult] = useState<number | null>(null);
+  const [goalResult, setGoalResult] = useState<number | null>(null);
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -50,6 +52,13 @@ const HomePage: React.FC = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       heightUnit: value,
+    }));
+  };
+
+  const handleGenderChange = (selectedGender: string) => {
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      gender: selectedGender,
     }));
   };
 
@@ -90,6 +99,7 @@ const HomePage: React.FC = () => {
       return;
     }
 
+    const gender = formData.gender;
     var weight = parseFloat(formData.weightValue);
     const weightUnit = formData.weightUnit;
     var height = parseFloat(formData.heightValue);
@@ -110,36 +120,59 @@ const HomePage: React.FC = () => {
       const goalMultiplier = selectedGoal.multiplier;
 
       // Calculate the Basal Metabolic Rate (BMR)
-      const bmr = 10 * weight + 6.25 * height - 5 * age + 5;
-      setBmrResult(Math.round(bmr)); // Set the BMR result in the state
+      var bmr = 0
+      if (gender === 'male') {
+        var bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else {
+        var bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+      setBmrResult(Math.round(bmr));
 
       // Calculate the Total Daily Energy Expenditure (TDEE)
       const tdee = bmr * activityMultiplier;
-      setTdeeResult(Math.round(tdee)); // Set the TDEE result in the state
+      setTdeeResult(Math.round(tdee));
 
       // Calculate the Goal
       const goal = tdee * goalMultiplier;
-      setGoalResult(Math.round(goal)); // Set the goal result in the state
+      setGoalResult(Math.round(goal));
     }
 
-    setShowResults(true); // Show the results after calculation
+    setShowResults(true);
   };
 
   const handleGoBack = () => {
-    setBmrResult(null); // Reset the BMR result
-    setTdeeResult(null); // Reset the TDEE result
-    setGoalResult(null); // Reset the Goal result
-    setShowResults(false); // Go back to the input form
+    setBmrResult(null);
+    setTdeeResult(null);
+    setGoalResult(null);
+    setShowResults(false);
   };
 
   return (
     <div>
       <div className="card-wrapper">
-        <div
-          className={`card border p-4 drop-shadow-md rounded mb-4 bg-white flex flex-col ${
-            showResults ? 'hidden' : ''
-          }`}
-        >
+        <div className={`card border p-4 drop-shadow-md rounded mb-4 bg-white flex flex-col ${showResults ? 'hidden' : ''}`}>
+          <div className="flex mb-4">
+            <div className="flex items-center w-full">
+              <button
+                type="button"
+                onClick={() => handleGenderChange('male')}
+                className={`border p-2 rounded-l w-full ${
+                  formData.gender === 'male' ? 'bg-blue-500 text-white' : 'bg-white text-black'
+                }`}
+              >
+                Male
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGenderChange('female')}
+                className={`border p-2 rounded-r w-full ${
+                  formData.gender === 'female' ? 'bg-blue-500 text-white' : 'bg-white text-black'
+                }`}
+              >
+                Female
+              </button>
+            </div>
+          </div>
           <div className="flex mb-4">
             <input
               type="number"
@@ -153,7 +186,7 @@ const HomePage: React.FC = () => {
               name="weightUnit"
               value={formData.weightUnit}
               onChange={handleWeightUnitChange}
-              className="border border-gray-300 p-2 rounded appearance-none"
+              className="border border-gray-300 p-2 rounded appearance-none w-full"
               style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
             >
               <option value="lb">lb</option>
@@ -173,7 +206,7 @@ const HomePage: React.FC = () => {
               name="heightUnit"
               value={formData.heightUnit}
               onChange={handleHeightUnitChange}
-              className="border border-gray-300 p-2 rounded appearance-none"
+              className="border border-gray-300 p-2 rounded appearance-none w-full"
               style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
             >
               <option value="in">in</option>
