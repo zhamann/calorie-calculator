@@ -1,7 +1,10 @@
 'use client'
 
 import { useState, ChangeEvent } from 'react';
-import { activityLevels, goals } from '../data.json';
+import data from '../data.json';
+
+const activityLevels = data.activityLevels
+const goals = data.goals
 
 interface FormData {
   gender: string;
