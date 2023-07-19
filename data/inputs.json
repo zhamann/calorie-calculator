@@ -2,28 +2,28 @@
     "activityLevels": [
       {
         "value": "1",
-        "label": "Sedentary (0 Hours)",
-        "multiplier": 1.15
+        "label": "Sedentary (Little to No Exercise)",
+        "multiplier": 1.2
       },
       {
         "value": "2",
-        "label": "Light (1-3 Hours)",
-        "multiplier": 1.275
+        "label": "Lightly Active (1-3 Days/Week)",
+        "multiplier": 1.375
       },
       {
         "value": "3",
-        "label": "Moderate (4-6 Hours)",
-        "multiplier": 1.475
+        "label": "Moderately Active (3-5 Days/Week)",
+        "multiplier": 1.55
       },
       {
         "value": "4",
-        "label": "Heavy (7-9 Hours)",
-        "multiplier": 1.675
+        "label": "Very Active (6-7 Days/Week)",
+        "multiplier": 1.725
       },
       {
         "value": "5",
-        "label": "Athlete (10+ Hours)",
-        "multiplier": 1.875
+        "label": "Extremely Active (Training 2x/Day)",
+        "multiplier": 1.9
       }
     ],
     "goals": [

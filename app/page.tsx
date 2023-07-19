@@ -1,10 +1,15 @@
 'use client'
 
 import { useState, ChangeEvent } from 'react';
-import data from '../data.json';
+import data from '../data/inputs.json';
 
 const activityLevels = data.activityLevels
 const goals = data.goals
+
+import GenderSelection from '../components/gender-selection';
+import MeasurementInput from '../components/measurement-input';
+import SelectInput from '../components/select-input';
+import ResultsCard from '../components/results-card';
 
 interface FormData {
   gender: string;
@@ -20,13 +25,13 @@ interface FormData {
 const HomePage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     gender: 'male',
-    weightValue: '',
+    weightValue: '171.1',
     weightUnit: 'lb',
-    heightValue: '',
+    heightValue: '72',
     heightUnit: 'in',
-    age: '',
-    activity: '',
-    goal: '',
+    age: '23',
+    activity: '5',
+    goal: '3',
   });
 
   const [showResults, setShowResults] = useState(false);
@@ -62,6 +67,22 @@ const HomePage: React.FC = () => {
     setFormData((prevFormData) => ({
       ...prevFormData,
       gender: selectedGender,
+    }));
+  };
+
+  const handleActivityChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      activity: value,
+    }));
+  };
+  
+  const handleGoalChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      goal: value,
     }));
   };
 
@@ -152,70 +173,28 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      <div className="card-wrapper">
+      <div className="card-wrapper flex justify-center">
         <div className={`card border p-4 drop-shadow-md rounded mb-4 bg-white flex flex-col ${showResults ? 'hidden' : ''}`}>
-          <div className="flex mb-4">
-            <div className="flex items-center w-full">
-              <button
-                type="button"
-                onClick={() => handleGenderChange('male')}
-                className={`border p-2 rounded-l w-full ${
-                  formData.gender === 'male' ? 'bg-blue-500 text-white' : 'bg-white text-black'
-                }`}
-              >
-                Male
-              </button>
-              <button
-                type="button"
-                onClick={() => handleGenderChange('female')}
-                className={`border p-2 rounded-r w-full ${
-                  formData.gender === 'female' ? 'bg-blue-500 text-white' : 'bg-white text-black'
-                }`}
-              >
-                Female
-              </button>
-            </div>
-          </div>
-          <div className="flex mb-4">
-            <input
-              type="number"
-              name="weightValue"
-              placeholder="Weight"
-              value={formData.weightValue}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-2 rounded mr-2"
-            />
-            <select
-              name="weightUnit"
-              value={formData.weightUnit}
-              onChange={handleWeightUnitChange}
-              className="border border-gray-300 p-2 rounded appearance-none w-full"
-              style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
-            >
-              <option value="lb">lb</option>
-              <option value="kg">kg</option>
-            </select>
-          </div>
-          <div className="flex mb-4">
-            <input
-              type="number"
-              name="heightValue"
-              placeholder="Height"
-              value={formData.heightValue}
-              onChange={handleInputChange}
-              className="border border-gray-300 p-2 rounded mr-2"
-            />
-            <select
-              name="heightUnit"
-              value={formData.heightUnit}
-              onChange={handleHeightUnitChange}
-              className="border border-gray-300 p-2 rounded appearance-none w-full"
-              style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
-            >
-              <option value="in">in</option>
-              <option value="cm">cm</option>
-            </select>
-          </div>
+          <GenderSelection selectedGender={formData.gender} onGenderChange={handleGenderChange} />
+
+          <MeasurementInput
+            label="Weight"
+            value={formData.weightValue}
+            unitValue={formData.weightUnit}
+            onInputChange={handleInputChange}
+            onUnitChange={handleWeightUnitChange}
+            unitOptions={[{ label: 'lb', value: 'lb' }, { label: 'kg', value: 'kg' }]}
+          />
+
+          <MeasurementInput
+            label="Height"
+            value={formData.heightValue}
+            unitValue={formData.heightUnit}
+            onInputChange={handleInputChange}
+            onUnitChange={handleHeightUnitChange}
+            unitOptions={[{ label: 'in', value: 'in' }, { label: 'cm', value: 'cm' }]}
+          />
+
           <input
             type="number"
             name="age"
@@ -224,34 +203,21 @@ const HomePage: React.FC = () => {
             onChange={handleInputChange}
             className="border border-gray-300 p-2 rounded mb-4"
           />
-          <select
-            name="activity"
+
+          <SelectInput
+            name="Activity Level"
             value={formData.activity}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-2 rounded mb-4 appearance-none"
-            style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
-          >
-            <option value="">Activity Level</option>
-            {activityLevels.map((level) => (
-              <option key={level.value} value={level.value}>
-                {level.label}
-              </option>
-            ))}
-          </select>
-          <select
-            name="goal"
+            options={activityLevels.map((level) => ({ label: level.label, value: level.value }))}
+            onChange={handleActivityChange}
+          />
+
+          <SelectInput
+            name="Goal"
             value={formData.goal}
-            onChange={handleInputChange}
-            className="border border-gray-300 p-2 rounded mb-4 appearance-none"
-            style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
-          >
-            <option value="">Goal</option>
-            {goals.map((goal) => (
-              <option key={goal.value} value={goal.value}>
-                {goal.label}
-              </option>
-            ))}
-          </select>
+            options={goals.map((goal) => ({ label: goal.label, value: goal.value }))}
+            onChange={handleGoalChange}
+          />
+
           <button
             type="button"
             onClick={handleCalculate}
@@ -260,25 +226,9 @@ const HomePage: React.FC = () => {
             Calculate
           </button>
         </div>
-        {showResults && (
-          <div className="card border p-4 drop-shadow-md rounded mb-4 bg-white">
-            <div className="flex">
-              <div className="w-1/2 pr-4">
-                <h2 className="text-2xl font-bold mb-4">Results</h2>
-                <p>Basal Metabolic Rate (BMR): {bmrResult}</p>
-                <p>Total Daily Energy Expenditure (TDEE): {tdeeResult}</p>
-                <p>Goal: {goalResult}</p>
 
-                <button
-                  type="button"
-                  onClick={handleGoBack}
-                  className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-4"
-                >
-                  Back
-                </button>
-              </div>
-            </div>
-          </div>
+        {showResults && (
+          <ResultsCard bmr={bmrResult} tdee={tdeeResult} goal={goalResult} onGoBack={handleGoBack} />
         )}
       </div>
     </div>
