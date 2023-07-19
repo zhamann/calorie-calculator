@@ -25,13 +25,13 @@ interface FormData {
 const HomePage: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     gender: 'male',
-    weightValue: '171.1',
+    weightValue: '',
     weightUnit: 'lb',
-    heightValue: '72',
+    heightValue: '',
     heightUnit: 'in',
-    age: '23',
-    activity: '5',
-    goal: '3',
+    age: '',
+    activity: '',
+    goal: '',
   });
 
   const [showResults, setShowResults] = useState(false);
