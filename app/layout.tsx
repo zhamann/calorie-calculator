@@ -10,6 +10,7 @@ const roboto_flex = Roboto_Flex({
 export const metadata: Metadata = {
   title: 'Calorie Calculator',
   description: 'Calculate your Calories!',
+  themeColor: 'white'
 }
 
 export default function RootLayout({
