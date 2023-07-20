@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import resultsText from '../data/resultsText';
+import resultsText from '../data/results-text';
 
 interface ResultsCardProps {
   bmr: number | null;

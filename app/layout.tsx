@@ -22,7 +22,7 @@ export default function RootLayout({
 return (
   <html lang="en">
       <body className={roboto_flex.className}>
-        <div className="relative flex flex-col min-h-screen">
+        <div className="relative flex flex-col min-h-[calc(100dvh)]">
           <header className="w-full h-16 bg-white px-6 drop-shadow-md flex items-center">
             <a className="text-xl text-gray-900 font-extrabold">Calorie Calculator</a>
           </header>

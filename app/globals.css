@@ -1,11 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@supports (-webkit-touch-callout: none) {
-  .min-h-screen {
-    height: -webkit-fill-available;
-  }
-}
 
 
 :root {
