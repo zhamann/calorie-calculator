@@ -201,7 +201,7 @@ const HomePage: React.FC = () => {
             placeholder="Age"
             value={formData.age}
             onChange={handleInputChange}
-            pattern="[0-9]*"
+            inputMode="numeric"
             className="border border-gray-300 p-2 rounded mb-4"
           />
 

@@ -28,7 +28,7 @@ const MeasurementInput: React.FC<MeasurementInputProps> = ({
         placeholder={label}
         value={value}
         onChange={onInputChange}
-        pattern="[0-9]*(\.[0-9]*)?"
+        inputMode='decimal'
         className="border border-gray-300 p-2 rounded mr-2"
       />
       <select
