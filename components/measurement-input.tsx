@@ -35,7 +35,7 @@ const MeasurementInput: React.FC<MeasurementInputProps> = ({
         name={unitName}
         value={unitValue}
         onChange={onUnitChange}
-        className="border border-gray-300 p-2 rounded appearance-none w-full"
+        className="border border-gray-300 p-2 bg-white rounded appearance-none w-full"
         style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
       >
         {unitOptions.map((option) => (

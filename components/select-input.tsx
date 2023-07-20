@@ -13,7 +13,7 @@ const SelectInput: React.FC<SelectInputProps> = ({ name, value, options, onChang
       name={name}
       value={value}
       onChange={onChange}
-      className="border border-gray-300 p-2 rounded mb-4 appearance-none"
+      className="border border-gray-300 p-2 bg-white rounded mb-4 appearance-none"
       style={{ WebkitAppearance: 'none', MozAppearance: 'none' }}
     >
       <option value="">{name}</option>
